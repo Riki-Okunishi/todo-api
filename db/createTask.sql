@@ -1,9 +1,9 @@
 /*
 専用のユーザ(todo)を作成し権限を付与しておく
 $ mysql -u root -p
-MariaDB [(none)]> create database tododb default charset utf8;
-MariaDB [(none)]> create user 'todo'@'localhost' identified by 'todo';
-MariaDB [(none)]> grant all on 'tododb'.* to 'todo'@'localhost';
+mysql> create database tododb default charset utf8;
+mysql> create user 'todo'@'localhost' identified by 'todo';
+mysql> grant all on `tododb`.* to 'todo'@'localhost';
 */
 USE tododb
 DROP TABLE IF EXISTS task;

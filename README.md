@@ -22,7 +22,7 @@ MySQLサーバの設定
 $ mysql -u root -p
 mysql> create database tododb default charset utf8;
 mysql> create user 'todo'@'localhost' identified by 'todo';
-mysql> grant all on 'tododb'.* to 'todo'@'localhost';
+mysql> grant all on `tododb`.* to 'todo'@'localhost';
 mysql> source db/createTask.sql
 ```
 
