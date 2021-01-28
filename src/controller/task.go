@@ -24,9 +24,9 @@ func TasksGET(c *gin.Context){
 		task := model.Task{}
 		var id uint
 		var createdAt, updatedAt time.Time
-		var title string
+		var title, content string
 
-		err = result.Scan(&id, &createdAt, &updatedAt, &title)
+		err = result.Scan(&id, &createdAt, &updatedAt, &title, &content)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -35,6 +35,7 @@ func TasksGET(c *gin.Context){
 		task.CreatedAt = createdAt
 		task.UpdatedAt = updatedAt
 		task.Title = title
+		task.Content = content
 
 		tasks= append(tasks, task)
 	}
@@ -52,9 +53,9 @@ func FindByID(id uint) model.Task {
 	task := model.Task{}
 	for result.Next() {
 		var createdAt, updatedAt time.Time
-		var title string
+		var title, content string
 
-		err = result.Scan(&id, &createdAt, &updatedAt, &title)
+		err = result.Scan(&id, &createdAt, &updatedAt, &title, &content)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -63,6 +64,7 @@ func FindByID(id uint) model.Task {
 		task.CreatedAt = createdAt
 		task.UpdatedAt = updatedAt
 		task.Title = title
+		task.Content = content
 	}
 	return task
 }
@@ -72,14 +74,15 @@ func TaskPOST(c *gin.Context) {
 	db := model.DBConnect()
 
 	title := c.PostForm("title")
+	content := c.PostForm("content")
 	now := time.Now()
 
-	_, err := db.Exec("INSERT INTO task (title, created_at, updated_at) VALUES(?, ?, ?)", title, now, now)
+	_, err := db.Exec("INSERT INTO task (title, content, created_at, updated_at) VALUES(?, ?, ?, ?)", title, content, now, now)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	fmt.Printf("post sent. title: %s", title)
+	fmt.Printf("POST sent.\ntitle: %s, content: %s\n", title, content)
 }
 
 // タスク更新
@@ -88,9 +91,10 @@ func TaskPATCH(c *gin.Context) {
 
 	id, _ := strconv.Atoi(c.Param("id"))
 	title := c.PostForm("title")
+	content := c.PostForm("content")
 	now := time.Now()
 
-	_, err := db.Exec("UPDATE task SET title = ?, updated_at = ? WHERE id = ?", title, now, id)
+	_, err := db.Exec("UPDATE task SET title = ?, content = ?, updated_at = ? WHERE id = ?", title, content, now, id)
 	if err != nil {
 		panic(err.Error())
 	}

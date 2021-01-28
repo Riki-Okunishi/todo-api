@@ -1,0 +1,22 @@
+GET http://localhost/todo/api/v1/tasks
+
+###
+
+POST http://localhost/todo/api/v1/tasks
+Content-Type: application/json
+
+{
+  "task": {
+    "title": "Test",
+    "content": "Sample Text"
+  }
+}
+
+###
+PATCH http://localhost/todo/api/v1/tasks/5
+Content-Type: application/json
+
+{
+  "title": "Test",
+  "content": "Sample Text (Updated)"
+}
