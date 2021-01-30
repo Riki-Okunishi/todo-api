@@ -1,6 +1,10 @@
 # todo-api
 
-TODO管理のAPI
+TODO管理のAPI.
+
+1つのTODOは、タイトル(225バイト分)とコンテンツ(実質無制限)の2要素で構成.
+
+rest_sample.restにあるようにRESTでJSONを投げる.
 
 ## REST
 
