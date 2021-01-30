@@ -6,11 +6,10 @@ POST http://localhost/todo/api/v1/tasks
 Content-Type: application/json
 
 {
-  "task": {
-    "title": "Test",
-    "content": "Sample Text"
-  }
+  "title": "Test",
+  "content": "Sample Text"
 }
+
 
 ###
 PATCH http://localhost/todo/api/v1/tasks/5

@@ -17,9 +17,9 @@ TODO管理のAPI
 + [Nginx](https://www.nginx.com/)
 
 ## Setup
-MySQLサーバの設定
+### MySQLサーバの設定
 ```bash
-$ mysql -u root -p
+> mysql -u root -p
 mysql> create database tododb default charset utf8;
 mysql> create user 'todo'@'localhost' identified by 'todo';
 mysql> grant all on `tododb`.* to 'todo'@'localhost';
@@ -28,14 +28,18 @@ mysql> set password for 'todo'@'localhost'="XXX"
 mysql> source db/createTask.sql
 ```
 
-Nginxのリパースプロキシの設定(`etc/nginx/sites-available/default`)
+### Nginxのリパースプロキシの設定(`etc/nginx/sites-available/default`)
 ```
 location ^~ /todo/ {
   proxy_pass  http://127.0.0.1:9000;
 }
 ```
-
-サーバの起動
+設定を変更したら、Nginxを再起動
 ```bash
-$ MYSQL_TODO_PASSWORD=XXX go run src/main.go
+> systemctl restart nginx
+```
+
+### サーバの起動
+```bash
+> MYSQL_TODO_PASSWORD=XXX go run src/main.go
 ```

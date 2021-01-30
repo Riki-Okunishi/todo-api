@@ -69,20 +69,23 @@ func FindByID(id uint) model.Task {
 	return task
 }
 
-// タスク登録
+// タスク登録 POST(application/json)
 func TaskPOST(c *gin.Context) {
 	db := model.DBConnect()
 
-	title := c.PostForm("title")
-	content := c.PostForm("content")
+	json := model.Task{}
+	if err := c.BindJSON(&json); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	now := time.Now()
 
-	_, err := db.Exec("INSERT INTO task (title, content, created_at, updated_at) VALUES(?, ?, ?, ?)", title, content, now, now)
+	_, err := db.Exec("INSERT INTO task (title, content, created_at, updated_at) VALUES(?, ?, ?, ?)", json.Title, json.Content, now, now)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	fmt.Printf("POST sent.\ntitle: %s, content: %s\n", title, content)
+	fmt.Printf("POST sent.\ntitle: %s, content: %s\n", json.Title, json.Content)
 }
 
 // タスク更新
